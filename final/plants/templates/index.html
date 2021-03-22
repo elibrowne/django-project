@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Homepage </title>
+	</head>
+	<body>
+		<h1> Welcome to a website about plants! </h1>
+		<p>
+			{% for plant in plant_objects %}
+       			<li><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></li>
+			{% endfor %}
+		</p>
+	</body>
+</html>	
