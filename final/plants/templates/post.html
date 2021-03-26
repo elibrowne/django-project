@@ -7,5 +7,8 @@
 		<h1> <a href="/user/{{ post.author }}">{{ post.author }}</a> says... </h1>
 		<p> {{ post.post_content }} </p>
 		<h2> Replies </h2>
+		{% for reply in post_replies %}
+        	<li><a href="/post/{{ reply.id|add:'-1'}}/">{{ reply.post_content }}</a></li>
+    	{% endfor %}
 	</body>
 </html>	
