@@ -4,6 +4,8 @@ from django.template import loader
 
 from .models import Plant
 from .models import Post
+from .models import Profile
+from django.contrib.auth.models import User 
 
 # Index view
 def index(request):
@@ -26,7 +28,26 @@ def plant(request, plantname):
 
 # User view
 def user(request, username):
-	return HttpResponse("You're looking at " + username + "'s user page.")
+	template = loader.get_template('user.html')
+	# Check if the user exists
+	try:
+		userInfo = User.objects.filter(username=username)[0]
+	except:
+		template = loader.get_template('nouser.html')
+		context = {
+			'username': username # not user object because it didn't exist :(
+		}
+		return HttpResponse(template.render(context, request))
+	
+	# At this point, we know that the user existed (would've returned nouser.html otherwise)
+	template = loader.get_template('user.html')
+	context = {
+		'posts': Post.objects.filter(author=userInfo.id).order_by('id'),
+		'username': userInfo.username,
+		# 'status': userInfo.status # TODO STILL NEED TO WORK ON PROFILE!
+	}
+	# Return the template, context, and request, regardless of what they may be
+	return HttpResponse(template.render(context, request))
 
 # Post view
 def post(request, post_id):

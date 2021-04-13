@@ -36,3 +36,17 @@ class Post(models.Model):
 		# Finished string includes all the important information
 		return stringified
 
+# Profile is in a one-to-one relationship with Django's user object.
+# This is used only for the profile pages. 
+# THIS IS STILL IN PROGRESS AND IT DOESNT REALLY WORK RIGHT NOW! ://
+class Profile(models.Model):
+	user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True
+    )
+	status = models.TextField(default="", blank=True)
+	# Stringify the class is just done via the username
+	def __str__(self):
+		return user.username
+
