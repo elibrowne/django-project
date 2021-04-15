@@ -11,3 +11,5 @@ Django project
 *views.py* Views have imported plant and post models, can retrieve data, and can send the data to templates in context.
 *templates/plants/.html* Templates (index, plant, post) dump linked posts on the screen. User's page shows associated posts; plant's page shows associated posts; post's page shows post replies (more to come later!). These items link to each other (ie clicking on a post = seeing the entire post).
 *models.py* Two models (Plant, Post) and the built-in User model (needs to add login). Each model should have fake data (Plant has a few fake plants and there are a few posts + users admin, eli, and eli2). Plant models have linked posts. Post models have 'parent' plants, authors, and (sometimes) replies in the form of other posts. Users have posts that they've authored.
+
+As of now, the only glitch in the current programmed website that isn't due to not having started is the cherry tomato page being a bit broken, but the three other plant pages give an idea as to what it should look like and how it should function. Fix spaces in URLs soon.
