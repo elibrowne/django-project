@@ -57,4 +57,5 @@ def post(request, post_id):
 		'post': post_objects[int(post_id)],
 		'post_replies': post_objects.filter(post_parent = post_objects[int(post_id)])
 	}
+	print(request.GET) # testing out the "reply" button that doesn't reply anything
 	return HttpResponse(template.render(context, request))
