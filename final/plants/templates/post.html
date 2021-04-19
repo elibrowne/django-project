@@ -13,7 +13,7 @@
 		<h2> Reply to {{ post.author }} </h2>
 		<!-- Reply form (available when logged in): POST (get for now), creates a new Post object with parent object (this), reloads same post -->
 		<form action ="" method="GET">
-			<input type="text" value="Input text" id="reply-text"> </input> 
+			<input type="text" value="Input text" name="reply" id="reply-text"> </input> 
 			{% csrf_token %}
 			<input type="submit" value="Post reply"> </input>
 		</form>
