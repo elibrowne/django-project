@@ -4,7 +4,29 @@
 		<title> Homepage </title>
 	</head>
 	<body>
-		<h1> Welcome to a website about plants! </h1>
+		{% if user.is_authenticated %}
+			<h1> Welcome, {{ user.username }}! </h1>
+			<!-- User form to log out -->
+			<form method="POST">
+				{% csrf_token %}
+				<!-- This code was taken from Dr. J's repository, using a 
+				hidden input to log the user out. --> 
+				<input type="hidden" name="logout" value="logout"></input>
+				<button type="submit" class="btn btn-danger">Logout</button>
+			</form>
+		{% else %}
+			<h1> Welcome to a website about plants! </h1>
+			<!-- User form to log in -->
+			<form style="padding-bottom:1em;" method="POST">
+				{% csrf_token %}
+				<table>
+				  {{ form }} <!-- built in Django login -->
+				</table>
+				<!-- Login button --> 
+				<button type="submit">Login</button>
+			</form>
+		{% endif %}
+		<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 		<p>
 			{% for plant in plant_objects %}
        			<li><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></li>

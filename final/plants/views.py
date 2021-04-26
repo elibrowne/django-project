@@ -8,13 +8,54 @@ from .models import Post
 from .models import Profile
 from django.contrib.auth.models import User 
 
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils import timezone
+
 # Index view - no need to separate GET and POST because there's no practical difference,
 # index is only the target of a GET request
 class index(View):
+	# Get request means that either the user is logged in and wants to stay logged in
+	# or that the user is a guest and has not tried to log in. 
 	def get(self, request):
+		# Variables
 		plant_objects = Plant.objects.order_by('plant_name') # to be passed to the homepage
 		template = loader.get_template('index.html')
+		form = AuthenticationForm()
+		# Context for the template
 		context = {
+			'form': form,
+			'plant_objects': plant_objects,
+		}
+		return HttpResponse(template.render(context, request))
+	
+	# Post request means that the user just logged in or logged out.
+	def post(self, request): 
+		# Variables (again used logged in or out)
+		plant_objects = Plant.objects.order_by('plant_name') # to be passed to the homepage
+		template = loader.get_template('index.html')
+
+		# If the user logged out, just log them out
+		if 'logout' in request.POST.keys():
+			logout(request)
+			# We load an empty form with no data
+			form = AuthenticationForm()
+		else:
+			# User is logging in
+			form = AuthenticationForm(data=request.POST)
+			# Validate and clean the data
+			if form.is_valid():
+				username = form.cleaned_data['username']
+				password = form.cleaned_data['password']
+				# Then authenticate and log in.
+				user = authenticate(username = username, password=password)
+				if user is not None:
+					login(request, user=user)
+		
+		# Set up context with form and plant objects
+		context = {
+			'form': form,
 			'plant_objects': plant_objects,
 		}
 		return HttpResponse(template.render(context, request))
