@@ -106,3 +106,15 @@ class post(View):
 		}
 		print(request.GET) # testing out the "reply" button that doesn't reply anything
 		return HttpResponse(template.render(context, request))
+
+	def post(self, request, post_id):
+		# POST access means that they are sending in a new post that will be a child of this post
+		# The user must also be logged in (this is a bonus check, it's already not easy to send a reply when not logged in)
+		if request.POST['reply'] != "Input text" and request.POST['reply'] != "" and request.user.is_authenticated:
+			newPost = Post(
+				post_content = request.POST['reply'],
+				post_plant = Plant.objects.get(id=post_id).post_plant, # same as that of parent comment
+				author = request.user, # person who sent the request is the author
+				helpful = 0, # both of the "like" values start at zero
+				questioning = 0,
+			)

@@ -17,7 +17,7 @@
 		{% else %}
 			<h1> Welcome to a website about plants! </h1>
 			<!-- User form to log in -->
-			<form style="padding-bottom:1em;" method="POST">
+			<form method="POST">
 				{% csrf_token %}
 				<table>
 				  {{ form }} <!-- built in Django login -->
