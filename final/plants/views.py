@@ -121,7 +121,7 @@ class post(View):
 				post_content = request.POST['reply'],
 				# Sorry for the long line here -- Post.objects.get(id=X) was not working :()
 				post_plant = Post.objects.get(id=post_id).post_plant, # same as that of parent comment
-				post_parent = Post.objects.order_by('id')[int(post_id)],
+				post_parent = Post.objects.get(id=post_id),
 				author = request.user, # person who sent the request is the author
 				pub_date = timezone.now(),
 				helpful = 0, # both of the "like" values start at zero
@@ -132,7 +132,7 @@ class post(View):
 		# New context -- same as old one
 		post_objects = Post.objects.order_by('id')
 		context = {
-			'post': post_objects[int(post_id)],
-			'post_replies': post_objects.filter(post_parent = post_objects[int(post_id)])
+			'post': Post.objects.get(id=post_id),
+			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id))
 		}
 		return HttpResponse(loader.get_template('post.html').render(context, request))
