@@ -8,7 +8,7 @@
 		<p> {{ post.post_content }} </p>
 		<h2> Replies </h2>
 		{% for reply in post_replies %}
-        	<li><a href="/post/{{ reply.id|add:'-1'}}/">{{ reply.post_content }}</a></li>
+        	<li><a href="/post/{{ reply.id }}/">{{ reply.post_content }}</a></li>
     	{% endfor %}
 
 		<!-- Reply form (available when logged in): POST (get for now), creates a new Post object with parent object (this), reloads same post -->

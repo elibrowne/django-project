@@ -7,7 +7,7 @@
 		<h1>{{ plantname }}</a> posts </h1>
 		<h2> Post tagged under this plant </h2>
 		{% for post in posts %}
-        	<li><a href="/post/{{ post.id|add:'-1'}}/">{{ post.post_content }}</a></li>
+        	<li><a href="/post/{{ post.id }}/">{{ post.post_content }}</a></li>
     	{% endfor %}
 	</body>
 </html>	

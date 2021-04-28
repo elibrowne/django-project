@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from django.views import View
@@ -100,9 +101,14 @@ class post(View):
 	def get(self, request, post_id):
 		post_objects = Post.objects.order_by('id')
 		template = loader.get_template('post.html')
+		# DEBUG DEBUG DEBUG WHYYY
+		for postt in Post.objects.order_by('id'):
+			print(postt.id)
+			print(postt)
+
 		context = {
-			'post': post_objects[int(post_id)],
-			'post_replies': post_objects.filter(post_parent = post_objects[int(post_id)])
+			'post': get_object_or_404(Post, id=post_id),
+			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id))
 		}
 		print(request.GET) # testing out the "reply" button that doesn't reply anything
 		return HttpResponse(template.render(context, request))
@@ -113,8 +119,20 @@ class post(View):
 		if request.POST['reply'] != "Input text" and request.POST['reply'] != "" and request.user.is_authenticated:
 			newPost = Post(
 				post_content = request.POST['reply'],
-				post_plant = Plant.objects.get(id=post_id).post_plant, # same as that of parent comment
+				# Sorry for the long line here -- Post.objects.get(id=X) was not working :()
+				post_plant = Post.objects.get(id=post_id).post_plant, # same as that of parent comment
+				post_parent = Post.objects.order_by('id')[int(post_id)],
 				author = request.user, # person who sent the request is the author
+				pub_date = timezone.now(),
 				helpful = 0, # both of the "like" values start at zero
-				questioning = 0,
+				also_questioning = 0,
 			)
+			newPost.save()
+
+		# New context -- same as old one
+		post_objects = Post.objects.order_by('id')
+		context = {
+			'post': post_objects[int(post_id)],
+			'post_replies': post_objects.filter(post_parent = post_objects[int(post_id)])
+		}
+		return HttpResponse(loader.get_template('post.html').render(context, request))
