@@ -24,6 +24,21 @@ class index(View):
 		plant_objects = Plant.objects.order_by('plant_name') # to be passed to the homepage
 		template = loader.get_template('index.html')
 		form = AuthenticationForm()
+		
+		# Check if the user is attempting to view a certain user or plant.
+		# The try/catch blocks exist to keep it working when there's no data.
+		try: 
+			if request.GET['targetusername']:
+				return user.as_view()(self.request, request.GET['targetusername'])
+		except: 
+			print("No target username.")
+		
+		try: 
+			if request.GET['targetplant']:
+				return plant.as_view()(self.request, request.GET['targetplant'])
+		except: 
+			print("No target plant.")
+
 		# Context for the template
 		context = {
 			'form': form,

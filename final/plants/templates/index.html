@@ -49,17 +49,19 @@
 						<h1> &#127969; visit a friend </h1>
 						<br />
 						<p> visit a user's profile </p>
-						<div class="input-group">
-							<!-- Insert a username -->
-							<div class="input-group-prepend">
-							  <span class="input-group-text" id="basic-addon1">/user/</span>
+						<form method="GET"> <!-- get with target -->
+							<div class="input-group">
+								<!-- Insert a username -->
+								<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">/user/</span>
+								</div>
+								<input type="text" class="form-control" placeholder="username" name="targetusername" aria-label="Username">
+								<!-- Submit button for this form -->
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="submit"> go </button>
+								</div>
 							</div>
-							<input type="text" class="form-control" placeholder="username" aria-label="Username">
-							<!-- Submit button for this form -->
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="submit"> go </button>
-							</div>
-						</div>
+						</form> 
 					</div>
 				</div>
 				<div class="col-12 col-md 6">
@@ -67,16 +69,18 @@
 						<h1> &#127793; find a plant </h1>
 						<br />
 						<p> go straight to any plant page </p>
-						<div class="input-group">
-							<div class="input-group-prepend">
-							  <span class="input-group-text" id="basic-addon1">/plant/</span>
+						<form method="GET">
+							<div class="input-group">
+								<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">/plant/</span>
+								</div>
+								<input type="text" class="form-control" placeholder="plant" name="targetplant" aria-label="Plant Name">
+								<!-- Submit button for this form -->
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="submit"> go </button>
+								</div>
 							</div>
-							<input type="text" class="form-control" placeholder="plant" aria-label="Username">
-							<!-- Submit button for this form -->
-							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="submit"> go </button>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
