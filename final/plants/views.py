@@ -33,6 +33,7 @@ class index(View):
 		except: 
 			print("No target username.")
 		
+		# TODO THIS DOESN'T IDENTIFY PLANTS :( 
 		try: 
 			if request.GET['targetplant']:
 				return plant.as_view()(self.request, request.GET['targetplant'])

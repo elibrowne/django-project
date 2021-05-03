@@ -16,7 +16,7 @@
 		<nav class="navbar navbar-expand-sm navbar-custom">
 			<a class="navbar-brand" href=""> plantclub </a>
 			{% if user.is_authenticated %}
-			<a class="nav-item" href="/user/{{ user.username }}"> welcome, {{ user.username }}! </a> 
+			<a class="nav-item" href="/user/{{ user.username }}"> welcome, {{ user.username }}! view your profile or </a> 
 			<!-- User form to log out -->
 			<form class="form-inline" method="POST">
 				{% csrf_token %}
@@ -89,7 +89,7 @@
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 			<p>
 				{% for plant in plant_objects %}
-					<li><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></li>
+					<div class="plantlink"><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></div>
 				{% endfor %}
 			</p>
 		</div>

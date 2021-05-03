@@ -37,3 +37,21 @@
 	border-radius: 15px;
 	margin-bottom: 10px;
 }
+
+.plantlink {
+	display: flex;
+  	align-items: center;
+	height: 80px;
+	padding: 10px;
+	padding-left: 20px;
+	color: #666;
+	background-color: #eee;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}
+
+.plantlink a, .plantlink p {
+	vertical-align: middle;
+	font-size: 27px;
+	color: #666;
+}
