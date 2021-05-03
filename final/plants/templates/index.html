@@ -1,36 +1,51 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- Bootstrap CDN -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Karla Font -->
+		<link rel="preconnect" href="https://fonts.gstatic.com"> 
+		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,400;0,700;0,800;1,200;1,400;1,700;1,800&display=swap" rel="stylesheet">
+		<!-- Load my CSS -->
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'style.css' %}">
+		<!-- Other webpage info -->
 		<title> Homepage </title>
 	</head>
 	<body>
-		{% if user.is_authenticated %}
-			<h1> Welcome, {{ user.username }}! </h1>
+		<nav class="navbar navbar-light navbar-expand-lg bg-light" id="topnav">
+			<a class="navbar-brand" href=""> home </a>
+			{% if user.is_authenticated %}
+			<a class="nav-item" href="/user/{{ user.username }}"> welcome, {{ user.username }}! </a> 
 			<!-- User form to log out -->
-			<form method="POST">
+			<form class="form-inline" method="POST">
 				{% csrf_token %}
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button type="submit" class="btn btn-danger">Logout</button>
-			</form>
-		{% else %}
-			<h1> Welcome to a website about plants! </h1>
-			<!-- User form to log in -->
-			<form method="POST">
-				{% csrf_token %}
-				<table>
-				  {{ form }} <!-- built in Django login -->
-				</table>
-				<!-- Login button --> 
-				<button type="submit">Login</button>
-			</form>
-		{% endif %}
-		<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
-		<p>
-			{% for plant in plant_objects %}
-       			<li><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></li>
-			{% endfor %}
-		</p>
+				<button id="logout" class="btn btn-outline-info my-2 my-sm-0" type="submit">Logout</button>
+			</form> 
+			{% else %}
+				<h1> Welcome to a website about plants! </h1>
+				<!-- User form to log in -->
+				<form method="POST">
+					{% csrf_token %}
+					<table>
+					{{ form }} <!-- built in Django login -->
+					</table>
+					<!-- Login button --> 
+					<button type="submit">Login</button>
+				</form>
+			{% endif %}
+		</nav>
+		
+			<div class="container-fluid">
+			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
+			<p>
+				{% for plant in plant_objects %}
+					<li><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></li>
+				{% endfor %}
+			</p>
+		</div>
 	</body>
 </html>	
