@@ -1,0 +1,30 @@
+.body {
+	font-family: 'Karla', sans-serif;
+}
+
+.navbar-custom {
+	background-color: #52b788;
+	padding: 20px;
+}
+
+.navbar-text {
+	color: white;
+	margin-right: 10px; /* for the login form */
+}
+
+.navbar-brand {
+	font-weight: 700;
+	color: white;
+}
+
+.nav-item {
+	color: white;
+}
+
+#login, #logout {
+	margin-left: 10px;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}

@@ -8,13 +8,13 @@
 		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,400;0,700;0,800;1,200;1,400;1,700;1,800&display=swap" rel="stylesheet">
 		<!-- Load my CSS -->
 		{% load static %}
-		<link rel="stylesheet" href="{% static 'style.css' %}">
+		<link rel="stylesheet" href="{% static '/plants/style.css' %}">
 		<!-- Other webpage info -->
 		<title> Homepage </title>
 	</head>
 	<body>
-		<nav class="navbar navbar-light navbar-expand-lg bg-light" id="topnav">
-			<a class="navbar-brand" href=""> home </a>
+		<nav class="navbar navbar-expand-lg navbar-custom">
+			<a class="navbar-brand" href=""> plantclub </a>
 			{% if user.is_authenticated %}
 			<a class="nav-item" href="/user/{{ user.username }}"> welcome, {{ user.username }}! </a> 
 			<!-- User form to log out -->
@@ -23,18 +23,18 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-info my-2 my-sm-0" type="submit">Logout</button>
+				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
-				<h1> Welcome to a website about plants! </h1>
+				<span class="navbar-text"> log in to use plantclub best :) </span>
 				<!-- User form to log in -->
-				<form method="POST">
+				<form class="form-inline" method="POST">
 					{% csrf_token %}
 					<table>
 					{{ form }} <!-- built in Django login -->
 					</table>
 					<!-- Login button --> 
-					<button type="submit">Login</button>
+					<button id="login" class="btn btn-outline-light" type="submit">Login</button>
 				</form>
 			{% endif %}
 		</nav>
