@@ -38,8 +38,50 @@
 				</form>
 			{% endif %}
 		</nav>
-		
-			<div class="container-fluid">
+
+		<br />
+		<!-- Past the navbar is website content -->
+		<div class="container-fluid">
+			<!-- This row has two bits of information - going straight to a plant OR going straight to a user -->
+			<div class="row">
+				<div class="col-12 col-md 6">
+					<div class="info-card">
+						<h1> &#127969; visit a friend </h1>
+						<br />
+						<p> visit a user's profile </p>
+						<div class="input-group">
+							<!-- Insert a username -->
+							<div class="input-group-prepend">
+							  <span class="input-group-text" id="basic-addon1">/user/</span>
+							</div>
+							<input type="text" class="form-control" placeholder="username" aria-label="Username">
+							<!-- Submit button for this form -->
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="submit"> go </button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-md 6">
+					<div class="info-card">
+						<h1> &#127793; find a plant </h1>
+						<br />
+						<p> go straight to any plant page </p>
+						<div class="input-group">
+							<div class="input-group-prepend">
+							  <span class="input-group-text" id="basic-addon1">/plant/</span>
+							</div>
+							<input type="text" class="form-control" placeholder="plant" aria-label="Username">
+							<!-- Submit button for this form -->
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="submit"> go </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<hr /> <!-- vertical ruler to separate quick action and text -->
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 			<p>
 				{% for plant in plant_objects %}

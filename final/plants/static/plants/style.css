@@ -28,3 +28,12 @@
 	padding-top: 5px;
 	padding-bottom: 5px;
 }
+
+.info-card {
+	height: 225px;
+	padding: 30px;
+	color: #666;
+	background-color: #eee;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}
