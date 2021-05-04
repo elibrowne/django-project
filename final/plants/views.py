@@ -24,7 +24,14 @@ class index(View):
 		plant_objects = Plant.objects.order_by('plant_name') # to be passed to the homepage
 		template = loader.get_template('index.html')
 		form = AuthenticationForm()
-		
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+
 		# Check if the user is attempting to view a certain user or plant.
 		# The try/catch blocks exist to keep it working when there's no data.
 		try: 
@@ -84,7 +91,7 @@ class plant(View):
 		template = loader.get_template('plant.html')
 		context = {
 			'plantname': plantname,
-			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname[0].upper() + plantname[1:]))
+			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname))
 		}
 		return HttpResponse(template.render(context, request))
 

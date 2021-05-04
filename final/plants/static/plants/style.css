@@ -55,3 +55,9 @@
 	font-size: 27px;
 	color: #666;
 }
+
+.usernameinput input {
+	border: none;
+	border-radius: 5px;
+	padding: 5px;
+}

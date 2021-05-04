@@ -30,11 +30,13 @@
 				<!-- User form to log in -->
 				<form class="form-inline" method="POST">
 					{% csrf_token %}
-					<table>
-					{{ form }} <!-- built in Django login -->
-					</table>
+					{{ form.non_field_errors }}
+					{{ form.username.errors }}
+					<span class="usernameinput" style="margin-right: 10px"> {{ form.username }} </span>
+					{{ form.password.errors }}
+					<span class="usernameinput"> {{ form.password }} </span> <!-- same class to style input as username -->
 					<!-- Login button --> 
-					<button id="login" class="btn btn-outline-light" type="submit">Login</button>
+					<button id="login" class="btn btn-outline-light" type="submit">log in!</button>
 				</form>
 			{% endif %}
 		</nav>
@@ -89,7 +91,7 @@
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 			<p>
 				{% for plant in plant_objects %}
-					<div class="plantlink"><a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_name }}</a></div>
+					<div class="plantlink"> <a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_emoji}} {{ plant.plant_name }}</a></div>
 				{% endfor %}
 			</p>
 		</div>
