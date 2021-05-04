@@ -88,12 +88,22 @@
 			</div>
 
 			<hr /> <!-- vertical ruler to separate quick action and text -->
+			<div style="text-align: center;">
+				<h1> &#128029; browse plants </h1> 
+				<p> check out different plants, and see what people have to say about them! </p>
+			</div>
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 			<p>
 				{% for plant in plant_objects %}
 					<div class="plantlink"> <a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_emoji}} {{ plant.plant_name }}</a></div>
 				{% endfor %}
 			</p>
+
+			<hr /> <!-- vertical ruler to separate browsing and bottom website information -->
+			<div style="text-align: center;">
+				<h1> &#128027; learn more </h1> 
+				<p> if you're looking for something extra, it's probably here! </p>
+			</div>
 		</div>
 	</body>
 </html>	

@@ -1,5 +1,14 @@
-.body {
+h1, p, a, navbar-brand { /* set default font */
 	font-family: 'Karla', sans-serif;
+	color: #555;
+}
+
+/* font weights */
+h1 {
+	font-weight: 700;
+}
+p {
+	font-weight: 400;
 }
 
 .navbar-custom {
@@ -8,6 +17,7 @@
 }
 
 .navbar-text {
+	font-family: 'Karla', sans-serif; /* wasn't rendering properly in the top */
 	color: white;
 	margin-right: 10px; /* for the login form */
 }
@@ -22,6 +32,7 @@
 }
 
 #login, #logout {
+	font-family: 'Karla', sans-serif;
 	margin-left: 10px;
 	padding-left: 7px;
 	padding-right: 7px;
@@ -30,13 +41,16 @@
 }
 
 .info-card {
+	font-family: 'Karla', sans-serif;
 	height: 225px;
 	padding: 30px;
-	color: #666;
+	color: #555;
 	background-color: #eee;
 	border-radius: 15px;
 	margin-bottom: 10px;
 }
+
+
 
 .plantlink {
 	display: flex;
@@ -44,7 +58,7 @@
 	height: 80px;
 	padding: 10px;
 	padding-left: 20px;
-	color: #666;
+	color: #555;
 	background-color: #eee;
 	border-radius: 15px;
 	margin-bottom: 10px;
@@ -53,11 +67,11 @@
 .plantlink a, .plantlink p {
 	vertical-align: middle;
 	font-size: 27px;
-	color: #666;
 }
 
 .usernameinput input {
 	border: none;
 	border-radius: 5px;
 	padding: 5px;
+	font-family: 'Karla', sans-serif;
 }
