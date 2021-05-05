@@ -40,7 +40,6 @@ class index(View):
 		except: 
 			print("No target username.")
 		
-		# TODO THIS DOESN'T IDENTIFY PLANTS :( 
 		try: 
 			if request.GET['targetplant']:
 				return plant.as_view()(self.request, request.GET['targetplant'])
@@ -89,9 +88,56 @@ class plant(View):
 	def get(self, request, plantname):
 		post_objects = Post.objects.order_by('id')
 		template = loader.get_template('plant.html')
+		# Form for login -- available on each page 
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+		
+		# Create context and go
 		context = {
 			'plantname': plantname,
-			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname))
+			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname)),
+			'form': form
+		}
+		return HttpResponse(template.render(context, request))
+
+	def post(self, request, plantname):
+		# Post request = the user is making a new post in the plant category
+		post_objects = Post.objects.order_by('id')
+		template = loader.get_template('plant.html')
+		# Form for login -- available on each page 
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+
+		# Add the new post
+		if request.POST['postcontent'] != "" and len(request.POST['postcontent']) < 1000 and request.user.is_authenticated:
+			newPost = Post(
+				post_content = request.POST['postcontent'],
+				post_plant = Plant.objects.get(plant_name=plantname),
+				post_parent = None, # this is an original post, not a reply
+				author = request.user, # person who sent the request is the author
+				pub_date = timezone.now(),
+				helpful = 0, # both of the "like" values start at zero
+				also_questioning = 0,
+			)
+			newPost.save()
+		
+		# Load the page, the new post should appear
+		context = {
+			'plantname': plantname,
+			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname)),
+			'form': form
 		}
 		return HttpResponse(template.render(context, request))
 
