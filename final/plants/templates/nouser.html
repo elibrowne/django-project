@@ -1,9 +1,52 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title> Failed to find user </title>
+		<!-- Bootstrap CDN -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<!-- Karla Font -->
+		<link rel="preconnect" href="https://fonts.gstatic.com"> 
+		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,400;0,700;0,800;1,200;1,400;1,700;1,800&display=swap" rel="stylesheet">
+		<!-- Load my CSS -->
+		{% load static %}
+		<link rel="stylesheet" href="{% static '/plants/style.css' %}">
+		<!-- Other webpage info -->
+		<title> saladclub • user not found </title>
 	</head>
 	<body>
-		<h1>{{ username }} does not exist :( </h1>
+		<!-- navbar is universal on the website -->
+		<nav class="navbar navbar-expand-sm navbar-custom">
+			<a class="navbar-brand" href=""> saladclub </a>
+			{% if user.is_authenticated %}
+			<a class="nav-item" href="/user/{{ user.username }}"> welcome, {{ user.username }}! view your profile or </a> 
+			<!-- User form to log out -->
+			<form class="form-inline" method="POST">
+				{% csrf_token %}
+				<!-- This code was taken from Dr. J's repository, using a 
+				hidden input to log the user out. --> 
+				<input type="hidden" name="logout" value="logout"></input>
+				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+			</form> 
+			{% else %}
+				<span class="navbar-text"> log in to use saladclub best :) </span>
+				<!-- User form to log in -->
+				<form class="form-inline" method="POST">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+					{{ form.username.errors }}
+					<span class="usernameinput" style="margin-right: 10px"> {{ form.username }} </span>
+					{{ form.password.errors }}
+					<span class="usernameinput"> {{ form.password }} </span> <!-- same class to style input as username -->
+					<!-- Login button --> 
+					<button id="login" class="btn btn-outline-light" type="submit">log in!</button>
+				</form>
+			{% endif %}
+		</nav>
+
+		<br />
+
+		<div class="container-fluid">
+			<p> you are seeing this page because the one you wanted doesn't exist! </p>
+			<h2> we could not find a user with name {{ username }} :( </h2>
+		</div>
 	</body>
 </html>	

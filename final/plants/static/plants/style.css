@@ -1,10 +1,10 @@
-h1, p, a, navbar-brand { /* set default font */
+h1, h2, p, a, navbar-brand { /* set default font */
 	font-family: 'Karla', sans-serif;
 	color: #555;
 }
 
 /* font weights */
-h1 {
+h1, h2 {
 	font-weight: 700;
 }
 p {
