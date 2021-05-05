@@ -67,7 +67,13 @@
 			<!-- View currently existing posts -->
 			<h1>{{ plantname }} posts </h1>
 			{% for post in posts %}
-				<li><a href="/post/{{ post.id }}/">{{ post.post_content }}</a></li>
+				<!-- Replies are not shown, only original posts -->
+				{% if post.post_parent == None %}
+				<li class="postli">
+					<h4> <a href="/user/{{ post.author }}">{{ post.author }}</a> says... </h4>
+					<a href="/post/{{ post.id }}/">{{ post.post_content }}</a>
+				</li>
+				{% endif %}
 			{% endfor %}
 		</div>
 	</body>
