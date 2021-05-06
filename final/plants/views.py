@@ -76,6 +76,14 @@ class index(View):
 				if user is not None:
 					login(request, user=user)
 		
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+
 		# Set up context with form and plant objects
 		context = {
 			'form': form,
