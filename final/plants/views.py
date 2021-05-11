@@ -158,8 +158,19 @@ class user(View):
 			userInfo = User.objects.filter(username=username)[0]
 		except:
 			template = loader.get_template('nouser.html')
+			# Form for login -- available on each page 
+			form = AuthenticationForm()
+			# Adds placeholders to the fields
+			form.fields['username'].widget.attrs.update({
+				'placeholder': 'username',
+			})
+			form.fields['password'].widget.attrs.update({
+				'placeholder': 'password'
+ 			})
+
 			context = {
-				'username': username # not user object because it didn't exist :(
+				'username': username, # not user object because it didn't exist :(
+				'form': form
 			}
 			return HttpResponse(template.render(context, request))
 		
@@ -178,14 +189,19 @@ class post(View):
 	def get(self, request, post_id):
 		post_objects = Post.objects.order_by('id')
 		template = loader.get_template('post.html')
-		# DEBUG DEBUG DEBUG WHYYY
-		for postt in Post.objects.order_by('id'):
-			print(postt.id)
-			print(postt)
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
 
 		context = {
 			'post': get_object_or_404(Post, id=post_id),
-			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id))
+			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id)),
+			'form': form
 		}
 		print(request.GET) # testing out the "reply" button that doesn't reply anything
 		return HttpResponse(template.render(context, request))
@@ -208,8 +224,11 @@ class post(View):
 
 		# New context -- same as old one
 		post_objects = Post.objects.order_by('id')
+		
 		context = {
 			'post': Post.objects.get(id=post_id),
 			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id))
+			# No login form because the user has to be logged in to see this page
 		}
+		
 		return HttpResponse(loader.get_template('post.html').render(context, request))
