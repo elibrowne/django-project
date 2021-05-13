@@ -41,13 +41,17 @@ class Post(models.Model):
 # This is used only for the profile pages. 
 # THIS IS STILL IN PROGRESS AND IT DOESNT REALLY WORK RIGHT NOW! ://
 class Profile(models.Model):
+	# Each user has one profile with additional information about them
 	user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True
     )
-	status = models.TextField(default="", blank=True)
+	# Biography, status, etc.
+	bio = models.TextField(default="", blank=True, max_length=1000)
+	status = models.TextField(default="", blank=True, max_length=100)
+
 	# Stringify the class is just done via the username
 	def __str__(self):
-		return user.username
+		return self.user.username
 

@@ -174,12 +174,14 @@ class user(View):
 			}
 			return HttpResponse(template.render(context, request))
 		
-		# At this point, we know that the user existed (would've returned nouser.html otherwise)
+		# At this point, we know that the user existed 
+		# Get the profile that corresponds to their profile
+		profile = Profile.objects.get(user=User.objects.get(username=username))
 		template = loader.get_template('user.html')
 		context = {
 			'posts': Post.objects.filter(author=userInfo.id).order_by('id'),
 			'username': userInfo.username,
-			# 'status': userInfo.status # TODO STILL NEED TO WORK ON PROFILE!
+			'profile': profile
 		}
 		# Return the template, context, and request, regardless of what they may be
 		return HttpResponse(template.render(context, request))
