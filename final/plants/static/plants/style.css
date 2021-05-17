@@ -101,3 +101,43 @@ p {
 	padding-bottom: 9px;
 	border-radius: 15px;
 }
+
+#like {
+	background: #FF807C;
+	border: 1px solid #FF807C;
+}
+
+#like:hover {
+	background: #FFA099;
+	border: 1px solid #FFA099;
+}
+
+#helpful {
+	background: #F5D268;
+	border: 1px solid #F5D268;
+}
+
+#helpful:hover {
+	background: #FFEFA2;
+	border: 1px solid #FFEFA2;
+}
+
+#wonder {
+	background: #758FFC;
+	border: 1px solid #758FFC;
+}
+
+#wonder:hover {
+	background: #A2C4FC;
+	border: 1px solid #A2C4FC;
+}
+
+#celebrate {
+	background: #C184F1;
+	border:1px solid #C184F1;
+}
+
+#celebrate:hover {
+	background: #DB9EFF;
+	border: 1px solid #DB9EFF;
+}
