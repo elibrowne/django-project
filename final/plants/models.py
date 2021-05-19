@@ -26,8 +26,10 @@ class Post(models.Model):
 	post_parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, default=None) # post deletes if the parent post deletes
 
 	# Using two different metrics to measure support for a post rather than likes
-	helpful = models.IntegerField(default=0) # for people who think the most is helpful (basically a 'like')
+	likes = models.IntegerField(default=0) # like button for people who like the post
+	helpful = models.IntegerField(default=0) # for people who think the most is helpful 
 	also_questioning = models.IntegerField(default=0) # a 'like' to indicate that other people have the same issue
+	celebrating = models.IntegerField(default=0) # for people who want to cheer on the post author
 
 	def __str__(self): 
 		# This is the string returned when asked to stringify the post

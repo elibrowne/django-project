@@ -115,11 +115,13 @@ p {
 #helpful {
 	background: #F5D268;
 	border: 1px solid #F5D268;
+	color: #555;
 }
 
 #helpful:hover {
 	background: #FFEFA2;
 	border: 1px solid #FFEFA2;
+	color: #555;
 }
 
 #wonder {

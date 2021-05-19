@@ -203,6 +203,10 @@ class post(View):
 		context = {
 			'post': get_object_or_404(Post, id=post_id),
 			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id)),
+			'likes': post_objects.get(id=post_id).likes,
+			'helpfuls': post_objects.get(id=post_id).helpful,
+			'questions': post_objects.get(id=post_id).also_questioning,
+			'celebrations': post_objects.get(id=post_id).celebrating,
 			'form': form
 		}
 		print(request.GET) # testing out the "reply" button that doesn't reply anything
