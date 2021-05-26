@@ -234,19 +234,60 @@ class post(View):
 			newPost.save()
 		
 		elif request.POST.get('like', "") == "like" and request.user.is_authenticated:
-			postResponse.liked = not postResponse.liked # switch the status
+			postResponse.liked = not postResponse.liked # switch the status of the post
 			postResponse.save()
-			print(postResponse.liked)
+			# Increment the counter if the user just liked the post
 			if postResponse.liked:
 				postToLike = Post.objects.get(id=post_id)
 				postToLike.likes += 1
 				postToLike.save()
-				print(postToLike.likes)
+			# Decrement the counter if the user just unliked the post
 			else:
 				postToLike = Post.objects.get(id=post_id)
 				postToLike.likes -= 1
 				postToLike.save()
-				print(postToLike.likes)
+
+		elif request.POST.get('helped', "") == "helped" and request.user.is_authenticated:
+			postResponse.helpful = not postResponse.helpful # switch the status of the post
+			postResponse.save()
+			# Increment the counter if the user just marked the post as "helpful"
+			if postResponse.helpful:
+				postToHelp = Post.objects.get(id=post_id)
+				postToHelp.helpful += 1
+				postToHelp.save()
+			# Decrement the counter if the user just unmarked the post as "helpful"
+			else:
+				postToHelp = Post.objects.get(id=post_id)
+				postToHelp.helpful -= 1
+				postToHelp.save()
+
+		elif request.POST.get('questioned', "") == "questioned" and request.user.is_authenticated:
+			postResponse.questioned = not postResponse.questioned # switch the status of the post
+			postResponse.save()
+			# Increment the counter if the user just questioned the post
+			if postResponse.questioned:
+				postToQuestion = Post.objects.get(id=post_id)
+				postToQuestion.also_questioning += 1
+				postToQuestion.save()
+			# Decrement the counter if the user just unliked the post
+			else:
+				postToQuestion = Post.objects.get(id=post_id)
+				postToQuestion.also_questioning -= 1
+				postToQuestion.save()
+
+		elif request.POST.get('celebrated', "") == "celebrated" and request.user.is_authenticated:
+			postResponse.celebrated = not postResponse.celebrated # switch the status of the post
+			postResponse.save()
+			# Increment the counter if the user just questioned the post
+			if postResponse.celebrated:
+				postToQuestion = Post.objects.get(id=post_id)
+				postToQuestion.celebrating += 1
+				postToQuestion.save()
+			# Decrement the counter if the user just unliked the post
+			else:
+				postToQuestion = Post.objects.get(id=post_id)
+				postToQuestion.celebrating -= 1
+				postToQuestion.save()
 
 		# New context -- same as old one
 		post_objects = Post.objects.order_by('id')

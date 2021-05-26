@@ -53,9 +53,21 @@
 						<input type="hidden" name="like" value="like"> </input>
 						<button id="like" class="btn btn-danger" type="submit">&#128077; • {{ likes }} </button> 
 					</form>
-					<button id="helpful" class="btn btn-warning" type="submit">&#128161;• {{ helpfuls }} </button> 
-					<button id="wonder" class="btn btn-primary" type="submit">&#129300;• {{ questions }} </button> 
-					<button class="btn btn-primary" id="celebrate" type="submit">🥳 • {{ celebrations }} </button> 
+					<form style="display: inline;" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="helped" value="helped"> </input>
+						<button id="helpful" class="btn btn-warning" type="submit">&#128161;• {{ helpfuls }} </button> 
+					</form>
+					<form style="display: inline;" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="questioned" value="questioned"> </input>
+						<button id="wonder" class="btn btn-primary" type="submit">&#129300;• {{ questions }} </button> 
+					</form>
+					<form style="display:inline;" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="celebrated" value="celebrated"> </input>
+						<button class="btn btn-primary" id="celebrate" type="submit">🥳 • {{ celebrations }} </button> 
+					</form>
 				</div>
 			</div>
 			<hr />
