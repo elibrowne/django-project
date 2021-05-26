@@ -41,7 +41,6 @@ class Post(models.Model):
 
 # Profile is in a one-to-one relationship with Django's user object.
 # This is used only for the profile pages. 
-# THIS IS STILL IN PROGRESS AND IT DOESNT REALLY WORK RIGHT NOW! ://
 class Profile(models.Model):
 	# Each user has one profile with additional information about them
 	user = models.OneToOneField(
@@ -49,6 +48,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         primary_key=True
     )
+
 	# Biography, status, etc.
 	bio = models.TextField(default="", blank=True, max_length=1000)
 	status = models.TextField(default="", blank=True, max_length=100)
@@ -57,3 +57,20 @@ class Profile(models.Model):
 	def __str__(self):
 		return self.user.username
 
+# Model to keep track of liked posts
+class Response(models.Model) :
+	# Post associated with this response
+	responsePost = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+	# User associated with this response
+	responseUser = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+	# Four responses
+	liked = models.BooleanField(default=False)
+	helpful = models.BooleanField(default=False)
+	questioned = models.BooleanField(default=False)
+	celebrated = models.BooleanField(default=False)
+
+	# What is the best course of action from here?
+	# Create a "responses" model instance for every user on every post?
+	# Create one every time the user interacts and it doesn't exist?
+	# Have django do it automatically in some way?
+	# Something else?

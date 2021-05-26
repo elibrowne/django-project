@@ -47,7 +47,16 @@
 			<div class="postfocus" style="padding-bottom: 20px;"> <!-- postfocus with buttons needs 20px bottom padding -->
 				<h1> &#128172; <a href="/user/{{ post.author }}"> {{ post.author }}</a> says... </h1>
 				<p> {{ post.post_content }} </p>
-				<button id="like" class="btn btn-danger" type="submit">&#128077; • {{ likes }}</button> <button id="helpful" class="btn btn-warning" type="submit">&#128161;• {{ helpfuls }}</button> <button id="wonder" class="btn btn-primary" type="submit">&#129300;• {{ questions }}</button> <button class="btn btn-primary" id="celebrate" type="submit">🥳 • {{ celebrations }}</button> 
+				<div>
+					<form style="display: inline;" method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="like" value="like"> </input>
+						<button id="like" class="btn btn-danger" type="submit">&#128077; • {{ likes }} </button> 
+					</form>
+					<button id="helpful" class="btn btn-warning" type="submit">&#128161;• {{ helpfuls }} </button> 
+					<button id="wonder" class="btn btn-primary" type="submit">&#129300;• {{ questions }} </button> 
+					<button class="btn btn-primary" id="celebrate" type="submit">🥳 • {{ celebrations }} </button> 
+				</div>
 			</div>
 			<hr />
 			<h1> replies </h1>

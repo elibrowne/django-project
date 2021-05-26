@@ -7,6 +7,7 @@ from django.views import View
 from .models import Plant
 from .models import Post
 from .models import Profile
+from .models import Response
 from django.contrib.auth.models import User 
 
 from django.contrib.auth.models import User
@@ -213,9 +214,11 @@ class post(View):
 		return HttpResponse(template.render(context, request))
 
 	def post(self, request, post_id):
+		postResponse = Response.objects.get_or_create(responseUser=request.user, responsePost=Post.objects.get(id=post_id))[0]
+		
 		# POST access means that they are sending in a new post that will be a child of this post
 		# The user must also be logged in (this is a bonus check, it's already not easy to send a reply when not logged in)
-		if request.POST['reply'] != "Input text" and request.POST['reply'] != "" and request.user.is_authenticated:
+		if request.POST.get('reply', "") != "Input text" and request.POST.get('reply', "") != "" and request.user.is_authenticated:
 			newPost = Post(
 				post_content = request.POST['reply'],
 				# Sorry for the long line here -- Post.objects.get(id=X) was not working :()
@@ -223,18 +226,47 @@ class post(View):
 				post_parent = Post.objects.get(id=post_id),
 				author = request.user, # person who sent the request is the author
 				pub_date = timezone.now(),
+				likes = 0,
 				helpful = 0, # both of the "like" values start at zero
 				also_questioning = 0,
+				celebrating = 0
 			)
 			newPost.save()
+		
+		elif request.POST.get('like', "") == "like" and request.user.is_authenticated:
+			postResponse.liked = not postResponse.liked # switch the status
+			postResponse.save()
+			print(postResponse.liked)
+			if postResponse.liked:
+				postToLike = Post.objects.get(id=post_id)
+				postToLike.likes += 1
+				postToLike.save()
+				print(postToLike.likes)
+			else:
+				postToLike = Post.objects.get(id=post_id)
+				postToLike.likes -= 1
+				postToLike.save()
+				print(postToLike.likes)
 
 		# New context -- same as old one
 		post_objects = Post.objects.order_by('id')
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
 		
 		context = {
 			'post': Post.objects.get(id=post_id),
-			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id))
-			# No login form because the user has to be logged in to see this page
+			'post_replies': post_objects.filter(post_parent = Post.objects.get(id=post_id)),
+			'likes': post_objects.get(id=post_id).likes,
+			'helpfuls': post_objects.get(id=post_id).helpful,
+			'questions': post_objects.get(id=post_id).also_questioning,
+			'celebrations': post_objects.get(id=post_id).celebrating,
+			'form': form
 		}
 		
 		return HttpResponse(loader.get_template('post.html').render(context, request))
