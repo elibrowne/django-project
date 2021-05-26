@@ -13,6 +13,7 @@
 		<title> saladclub • post </title>
 	</head>
 	<body>
+		<!-- navbar -->
 		<nav class="navbar navbar-expand-sm navbar-custom">
 			<a class="navbar-brand" href="/"> saladclub </a>
 			{% if user.is_authenticated %}
@@ -44,6 +45,12 @@
 		<br />
 
 		<div class="container-fluid">
+			{% if needsWarning %}
+			<div class="alert alert-danger">
+				<strong> error </strong> you can only interact with a post if you're logged in! please log in and try again.
+			</div>
+			{% endif %}
+
 			<div class="postfocus" style="padding-bottom: 20px;"> <!-- postfocus with buttons needs 20px bottom padding -->
 				<h1> &#128172; <a href="/user/{{ post.author }}"> {{ post.author }}</a> says... </h1>
 				<p> {{ post.post_content }} </p>

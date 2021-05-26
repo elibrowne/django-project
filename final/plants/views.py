@@ -214,80 +214,88 @@ class post(View):
 		return HttpResponse(template.render(context, request))
 
 	def post(self, request, post_id):
-		postResponse = Response.objects.get_or_create(responseUser=request.user, responsePost=Post.objects.get(id=post_id))[0]
-		
-		# POST access means that they are sending in a new post that will be a child of this post
-		# The user must also be logged in (this is a bonus check, it's already not easy to send a reply when not logged in)
-		if request.POST.get('reply', "") != "Input text" and request.POST.get('reply', "") != "" and request.user.is_authenticated:
-			newPost = Post(
-				post_content = request.POST['reply'],
-				# Sorry for the long line here -- Post.objects.get(id=X) was not working :()
-				post_plant = Post.objects.get(id=post_id).post_plant, # same as that of parent comment
-				post_parent = Post.objects.get(id=post_id),
-				author = request.user, # person who sent the request is the author
-				pub_date = timezone.now(),
-				likes = 0,
-				helpful = 0, # both of the "like" values start at zero
-				also_questioning = 0,
-				celebrating = 0
-			)
-			newPost.save()
-		
-		elif request.POST.get('like', "") == "like" and request.user.is_authenticated:
-			postResponse.liked = not postResponse.liked # switch the status of the post
-			postResponse.save()
-			# Increment the counter if the user just liked the post
-			if postResponse.liked:
-				postToLike = Post.objects.get(id=post_id)
-				postToLike.likes += 1
-				postToLike.save()
-			# Decrement the counter if the user just unliked the post
-			else:
-				postToLike = Post.objects.get(id=post_id)
-				postToLike.likes -= 1
-				postToLike.save()
+		# Variable to check if an error message is needed
+		needsWarning = False
+		if request.user.is_authenticated:
+			# The user can only interact with the post significantly if they're logged in.
+			postResponse = Response.objects.get_or_create(responseUser=request.user, responsePost=Post.objects.get(id=post_id))[0] 
 
-		elif request.POST.get('helped', "") == "helped" and request.user.is_authenticated:
-			postResponse.helpful = not postResponse.helpful # switch the status of the post
-			postResponse.save()
-			# Increment the counter if the user just marked the post as "helpful"
-			if postResponse.helpful:
-				postToHelp = Post.objects.get(id=post_id)
-				postToHelp.helpful += 1
-				postToHelp.save()
-			# Decrement the counter if the user just unmarked the post as "helpful"
-			else:
-				postToHelp = Post.objects.get(id=post_id)
-				postToHelp.helpful -= 1
-				postToHelp.save()
+			# Replying to the post:
+			if request.POST.get('reply', "") != "Input text" and request.POST.get('reply', "") != "":
+				newPost = Post(
+					post_content = request.POST['reply'],
+					# Sorry for the long line here -- Post.objects.get(id=X) was not working :()
+					post_plant = Post.objects.get(id=post_id).post_plant, # same as that of parent comment
+					post_parent = Post.objects.get(id=post_id),
+					author = request.user, # person who sent the request is the author
+					pub_date = timezone.now(),
+					likes = 0,
+					helpful = 0, # both of the "like" values start at zero
+					also_questioning = 0,
+					celebrating = 0
+				)
+				newPost.save()
+			
+			# Reacting to the post (four different reactions):
 
-		elif request.POST.get('questioned', "") == "questioned" and request.user.is_authenticated:
-			postResponse.questioned = not postResponse.questioned # switch the status of the post
-			postResponse.save()
-			# Increment the counter if the user just questioned the post
-			if postResponse.questioned:
-				postToQuestion = Post.objects.get(id=post_id)
-				postToQuestion.also_questioning += 1
-				postToQuestion.save()
-			# Decrement the counter if the user just unliked the post
-			else:
-				postToQuestion = Post.objects.get(id=post_id)
-				postToQuestion.also_questioning -= 1
-				postToQuestion.save()
+			elif request.POST.get('like', "") == "like":
+				postResponse.liked = not postResponse.liked # switch the status of the post
+				postResponse.save()
+				# Increment the counter if the user just liked the post
+				if postResponse.liked:
+					postToLike = Post.objects.get(id=post_id)
+					postToLike.likes += 1
+					postToLike.save()
+				# Decrement the counter if the user just unliked the post
+				else:
+					postToLike = Post.objects.get(id=post_id)
+					postToLike.likes -= 1
+					postToLike.save()
 
-		elif request.POST.get('celebrated', "") == "celebrated" and request.user.is_authenticated:
-			postResponse.celebrated = not postResponse.celebrated # switch the status of the post
-			postResponse.save()
-			# Increment the counter if the user just questioned the post
-			if postResponse.celebrated:
-				postToQuestion = Post.objects.get(id=post_id)
-				postToQuestion.celebrating += 1
-				postToQuestion.save()
-			# Decrement the counter if the user just unliked the post
-			else:
-				postToQuestion = Post.objects.get(id=post_id)
-				postToQuestion.celebrating -= 1
-				postToQuestion.save()
+			elif request.POST.get('helped', "") == "helped":
+				postResponse.helpful = not postResponse.helpful # switch the status of the post
+				postResponse.save()
+				# Increment the counter if the user just marked the post as "helpful"
+				if postResponse.helpful:
+					postToHelp = Post.objects.get(id=post_id)
+					postToHelp.helpful += 1
+					postToHelp.save()
+				# Decrement the counter if the user just unmarked the post as "helpful"
+				else:
+					postToHelp = Post.objects.get(id=post_id)
+					postToHelp.helpful -= 1
+					postToHelp.save()
+
+			elif request.POST.get('questioned', "") == "questioned":
+				postResponse.questioned = not postResponse.questioned # switch the status of the post
+				postResponse.save()
+				# Increment the counter if the user just questioned the post
+				if postResponse.questioned:
+					postToQuestion = Post.objects.get(id=post_id)
+					postToQuestion.also_questioning += 1
+					postToQuestion.save()
+				# Decrement the counter if the user just unliked the post
+				else:
+					postToQuestion = Post.objects.get(id=post_id)
+					postToQuestion.also_questioning -= 1
+					postToQuestion.save()
+
+			elif request.POST.get('celebrated', "") == "celebrated":
+				postResponse.celebrated = not postResponse.celebrated # switch the status of the post
+				postResponse.save()
+				# Increment the counter if the user just questioned the post
+				if postResponse.celebrated:
+					postToQuestion = Post.objects.get(id=post_id)
+					postToQuestion.celebrating += 1
+					postToQuestion.save()
+				# Decrement the counter if the user just unliked the post
+				else:
+					postToQuestion = Post.objects.get(id=post_id)
+					postToQuestion.celebrating -= 1
+					postToQuestion.save()
+		else:
+			# Alert the user that they must be logged in to interact with a post
+			needsWarning = True 
 
 		# New context -- same as old one
 		post_objects = Post.objects.order_by('id')
@@ -307,7 +315,8 @@ class post(View):
 			'helpfuls': post_objects.get(id=post_id).helpful,
 			'questions': post_objects.get(id=post_id).also_questioning,
 			'celebrations': post_objects.get(id=post_id).celebrating,
-			'form': form
+			'form': form,
+			'needsWarning': needsWarning
 		}
 		
 		return HttpResponse(loader.get_template('post.html').render(context, request))
