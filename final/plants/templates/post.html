@@ -24,7 +24,8 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+				<!-- Margin left is here so it's not right next to the text. Normally, the password field has "margin-right" to fix it. -->
+				<button id="logout" style="margin-left: 10px;" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
 				<span class="navbar-text"> log in to use saladclub best :) </span>
@@ -44,19 +45,26 @@
 
 		<br />
 
+		<!-- After the navbar, there is the focused post (this is the post page). -->
 		<div class="container-fluid">
+			<!-- This alert will only display after a non logged in person attempts to like a post. -->
 			{% if needsWarning %}
 			<div class="alert alert-danger" style="font-family: 'Karla', sans-serif;">
 				<strong> heads up! </strong> you can only interact with a post if you're logged in! please log in and try again.
 			</div>
 			{% endif %}
 
+			<!-- This div contains the main post -->
 			<div class="postfocus" style="padding-bottom: 20px;"> <!-- postfocus with buttons needs 20px bottom padding -->
 				<h1> &#128172; <a href="/user/{{ post.author }}"> {{ post.author }}</a> says... </h1>
 				<p> {{ post.post_content }} </p>
 				<div>
+					<!-- Reactions are in four forms, each with just one button. -->
+					<!-- The forms are inline and appear as four different colored buttons in a row. -->
+					<!-- Each has custom styling to make it easy to differentiate between them. -->
 					<form style="display: inline;" method="POST">
 						{% csrf_token %}
+						<!-- Same concept as the log out button: hidden input to be able to determine which form was clicked -->
 						<input type="hidden" name="like" value="like"> </input>
 						<button id="like" class="btn btn-danger" type="submit">&#128077; • {{ likes }} </button> 
 					</form>
@@ -77,17 +85,20 @@
 					</form>
 				</div>
 			</div>
-			<hr />
+
+			<hr /> <!-- Separates between the post (main focus) and the replies (additional information) -->
+
 			<h1> replies </h1>
 			<!-- no replies: confirm this to the user instead of leaving it blank-->
 			{% if post_replies|length == 0 %}
 				{% if user.is_authenticated %}
 					<p> there aren't any replies here! be the first to respond below. </p>
 				{% else %} 
-					<p> there aren't any replies here! log in above to respond below. </p>
+					<!-- Don't instruct the user about replies if they aren't logged in. -->
+					<p> there aren't any replies here! log in above to respond to this post. </p>
 				{% endif %}
 			{% endif %}
-			<!-- replies exist: add all of them -->
+			<!-- add all of the existing replies (this code may not run if there aren't any) -->
 			{% for reply in post_replies %}
 				<li class="postli">
 					<h4> <a href="/user/{{ reply.author }}"> {{ reply.author }}</a> responded... </h4>
@@ -95,15 +106,12 @@
 				</li>
 			{% endfor %}
 			
-			
-
-			<!-- Reply form (available when logged in): POST (get for now), creates a new Post object with parent object (this), reloads same post -->
+			<!-- Reply form (available when logged in only): POST, creates a new Post object with parent object (this), reloads same post -->
 			{% if user.is_authenticated %}
-			<hr />
+			<hr /> <!-- another vertical ruler for clarity-->
 			<div class="info-card" style="height: 330px;">
 				<form method="POST">
 					{% csrf_token %}
-					<!-- the pencil emoji wasn't working for me with the Unicode codes :( -->
 					<h1> &#128243; reply to {{ post.author }} </h1>
 					<p> keep the conversation going! reply here. 1000 character limit. </p>
 					<textarea name="reply" style="width: 100%; height: 115px; border-radius: 15px; border: none; padding: 15px;" placeholder="what do you have to say?"></textarea>

@@ -24,7 +24,8 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+				<!-- Margin left is here so it's not right next to the text. Normally, the password field has "margin-right" to fix it. -->
+				<button id="logout" style="margin-left: 10px;" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
 				<span class="navbar-text"> log in to use saladclub best :) </span>
@@ -44,6 +45,7 @@
 
 		<br />
 
+		<!-- This is just a basic user not found page -->
 		<div class="container-fluid">
 			<p> you are seeing this page because the one you wanted doesn't exist! </p>
 			<h2> we could not find a user with name {{ username }} :( </h2>

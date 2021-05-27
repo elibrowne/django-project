@@ -23,7 +23,8 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+				<!-- Margin left is here so it's not right next to the text. Normally, the password field has "margin-right" to fix it. -->
+				<button id="logout" style="margin-left: 10px;" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
 				<span class="navbar-text"> log in to use saladclub best :) </span>
@@ -46,6 +47,8 @@
 		<div class="container-fluid">
 			<!-- This row has two bits of information - going straight to a plant OR going straight to a user -->
 			<div class="row">
+				<!-- On a big screen, the visit a user takes up half and the visit a plant takes up the other half. -->
+				<!-- On a thinner screen, both are their own line. -->
 				<div class="col-12 col-md 6">
 					<div class="info-card">
 						<h1> &#127969; visit a friend </h1>
@@ -66,6 +69,7 @@
 						</form> 
 					</div>
 				</div>
+				<!-- Essentially the exact same code as above, but it has a targetplant instead of a targetuser. -->
 				<div class="col-12 col-md 6">
 					<div class="info-card">
 						<h1> &#127793; find a plant </h1>
@@ -87,15 +91,16 @@
 				</div>
 			</div>
 
-			<hr /> <!-- vertical ruler to separate quick action and text -->
+			<hr /> <!-- vertical ruler to separate quick movement and text -->
 			<div style="text-align: center;">
 				<h1> &#128029; browse plants </h1> 
 				<p> check out different plants, and see what people have to say about them! </p>
 			</div>
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
+			<!-- It includes every plant in alphabetical order, which should be pretty easy to follow -->
 			<p>
 				{% for plant in plant_objects %}
-					<div class="plantlink"> <a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_emoji}} {{ plant.plant_name }}</a></div>
+					<div class="plantlink"> <a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_emoji }} {{ plant.plant_name }}</a></div>
 				{% endfor %}
 			</p>
 

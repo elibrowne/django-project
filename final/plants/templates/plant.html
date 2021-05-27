@@ -23,7 +23,8 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+				<!-- Margin left is here so it's not right next to the text. Normally, the password field has "margin-right" to fix it. -->
+				<button id="logout" style="margin-left: 10px;" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
 				<span class="navbar-text"> log in to use saladclub best :) </span>
@@ -42,6 +43,7 @@
 		</nav>
 
 		<br />
+
 		<div class="container-fluid">
 			<!-- Option to create a new post only if the user is logged in -->
 			{% if user.is_authenticated %}
@@ -56,6 +58,7 @@
 				</form>
 			</div>
 			{% else %}
+			<!-- If the user isn't logged in, still show them something about posting but tell them to log in if they want to. -->
 			<div class="info-card" style="height: 140px;">
 				<!-- the pencil emoji wasn't working for me with the Unicode codes :( -->
 				<h1> ✏️ what's on your mind? </h1>
@@ -67,7 +70,7 @@
 			<!-- View currently existing posts -->
 			<h1>{{ plantname }} posts </h1>
 			{% for post in posts %}
-				<!-- Replies are not shown, only original posts -->
+				<!-- Replies are not shown, only original posts (this is determined by seeing if there is a parent post) -->
 				{% if post.post_parent == None %}
 				<li class="postli">
 					<h4> <a href="/user/{{ post.author }}">{{ post.author }}</a> says... </h4>

@@ -23,7 +23,8 @@
 				<!-- This code was taken from Dr. J's repository, using a 
 				hidden input to log the user out. --> 
 				<input type="hidden" name="logout" value="logout"></input>
-				<button id="logout" class="btn btn-outline-light" type="submit"> log out </button>
+				<!-- Margin left is here so it's not right next to the text. Normally, the password field has "margin-right" to fix it. -->
+				<button id="logout" style="margin-left: 10px;" class="btn btn-outline-light" type="submit"> log out </button>
 			</form> 
 			{% else %}
 				<span class="navbar-text"> log in to use saladclub best :) </span>
@@ -47,12 +48,15 @@
 			<div class="postfocus"> <!-- I know it's named after focused post but the bio acts like a focused post here -->
 				<h1> &#128075; welcome to {{ username }}'s profile! </h1>
 				<hr />
+				<!-- This is displaying the user's bio and status -->
 				<p> <strong> {{ username }}'s bio </strong> {{ profile.bio }} </p>
 				<p> <strong> {{ username }} is currently </strong>{{ profile.status }} </p>
 			</div>
 			<hr />
+			<!-- This includes both posts and replies. It's basically an activity feed -->
 			<h2> conversations {{ username }} chatted in </h2>
 			{% for post in posts %}
+				<!-- To differentiate between original posts and replies, use "says..." and "responded..." -->
 				{% if post.post_parent == None %}
 					<li class="postli">
 						<h4> <a href="/user/{{ post.author }}">{{ post.author }}</a> says... </h4>
