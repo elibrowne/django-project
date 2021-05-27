@@ -32,7 +32,7 @@
 					{% csrf_token %}
 					{{ form.non_field_errors }}
 					{{ form.username.errors }}
-					<span class="usernameinput" style="margin-right: 10px"> {{ form.username }} </span>
+					<span class="usernameinput"> {{ form.username }} </span>
 					{{ form.password.errors }}
 					<span class="usernameinput"> {{ form.password }} </span> <!-- same class to style input as username -->
 					<!-- Login button --> 

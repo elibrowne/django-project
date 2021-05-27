@@ -33,11 +33,12 @@ p {
 
 #login, #logout {
 	font-family: 'Karla', sans-serif;
-	margin-left: 10px;
 	padding-left: 7px;
 	padding-right: 7px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .info-card {
@@ -72,6 +73,7 @@ p {
 	border-radius: 5px;
 	padding: 5px;
 	font-family: 'Karla', sans-serif;
+	margin-right: 10px;
 }
 
 .postli {

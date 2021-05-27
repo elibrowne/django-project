@@ -33,7 +33,7 @@
 					{% csrf_token %}
 					{{ form.non_field_errors }}
 					{{ form.username.errors }}
-					<span class="usernameinput" style="margin-right: 10px"> {{ form.username }} </span>
+					<span class="usernameinput"> {{ form.username }} </span>
 					{{ form.password.errors }}
 					<span class="usernameinput"> {{ form.password }} </span> <!-- same class to style input as username -->
 					<!-- Login button --> 
@@ -46,8 +46,8 @@
 
 		<div class="container-fluid">
 			{% if needsWarning %}
-			<div class="alert alert-danger">
-				<strong> error </strong> you can only interact with a post if you're logged in! please log in and try again.
+			<div class="alert alert-danger" style="font-family: 'Karla', sans-serif;">
+				<strong> heads up! </strong> you can only interact with a post if you're logged in! please log in and try again.
 			</div>
 			{% endif %}
 

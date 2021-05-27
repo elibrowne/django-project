@@ -154,21 +154,22 @@ class plant(View):
 class user(View):
 	def get(self, request, username):
 		template = loader.get_template('user.html')
+		# Create authentication form
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+
 		# Check if the user exists
 		try:
 			userInfo = User.objects.filter(username=username)[0]
 		except:
+			# Load the user not found template
 			template = loader.get_template('nouser.html')
-			# Form for login -- available on each page 
-			form = AuthenticationForm()
-			# Adds placeholders to the fields
-			form.fields['username'].widget.attrs.update({
-				'placeholder': 'username',
-			})
-			form.fields['password'].widget.attrs.update({
-				'placeholder': 'password'
- 			})
-
 			context = {
 				'username': username, # not user object because it didn't exist :(
 				'form': form
@@ -182,7 +183,8 @@ class user(View):
 		context = {
 			'posts': Post.objects.filter(author=userInfo.id).order_by('id'),
 			'username': userInfo.username,
-			'profile': profile
+			'profile': profile,
+			'form': form
 		}
 		# Return the template, context, and request, regardless of what they may be
 		return HttpResponse(template.render(context, request))
@@ -214,8 +216,10 @@ class post(View):
 		return HttpResponse(template.render(context, request))
 
 	def post(self, request, post_id):
-		# Variable to check if an error message is needed
+		# Variable to check if an error message is needed (non logged in user tried to interact)
 		needsWarning = False
+		# This is only here because there is never an error messaged needed with a GET request
+		
 		if request.user.is_authenticated:
 			# The user can only interact with the post significantly if they're logged in.
 			postResponse = Response.objects.get_or_create(responseUser=request.user, responsePost=Post.objects.get(id=post_id))[0] 
