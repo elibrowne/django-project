@@ -350,13 +350,15 @@ class register(View):
 
 		context = {
 			'newAcctForm': newAcctForm,
-			'form': form
+			'form': form,
+			'warnings': ""
 		}
 
 		return HttpResponse(template.render(context, request))
 
 	def post(self, request):
-		# Creating a new user
+		# When there is a post request on the registration page, the website user attempted to make an account
+		warnings = "" # will add warnings if there are issues with their registration!
 		# User is logging in
 		newAcctForm = UserCreationForm(data=request.POST)
 		# Validate and clean the data
@@ -378,6 +380,14 @@ class register(View):
 				status = ""
 			)
 			newProfile.save()
+		
+		else:
+			# The form wasn't valid, change the error message and go back to registration page
+			# Append each error to the list of errors (warning String)
+			for field in newAcctForm:
+				for error in field.errors:
+					warnings += error + " "
+			
 			
 		template = loader.get_template('register.html') 
 
@@ -403,7 +413,8 @@ class register(View):
 		
 		context = {
 			'newAcctForm': newAcctForm,
-			'form': form
+			'form': form,
+			'warnings': warnings
 		}
 
 		return HttpResponse(template.render(context, request))

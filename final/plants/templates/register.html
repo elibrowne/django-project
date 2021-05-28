@@ -48,6 +48,12 @@
 		<!-- If the user is logged in, don't let them register a new account. -->
 		<div class="container-fluid">
 			{% if not user.is_authenticated %}
+			<!-- Display error messages if there are error messages caused by an improper registration -->
+			{% if not warnings == "" %} 
+			<div class="alert alert-danger" style="font-family: 'Karla', sans-serif;">
+				<strong> something went wrong :( </strong> {{ warnings }}
+			</div>
+			{% endif %}
 			<h2> &#128154; welcome! </h2>
 			<p> register your new account here. if you already have an account, log in above. </p> 
 			<div style="background-color: #eee; padding: 20px; border-radius: 10px;">
