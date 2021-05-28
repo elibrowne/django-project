@@ -13,6 +13,9 @@ This website has a homepage, pages for each plant, pages for each user, and page
 ### Styling
 The website was created using Bootstrap as a starting point. For example, the navigation bars and the buttons are just the basic bootstrap ones with very little changed. Elements were changed for a consistent font (Karla) and color scheme (green).
 
+### Bonus categories
+I have the ability to register a user, the ability to react to posts and/or comment below them, and I worked on making the design more advanced.
+
 #### Checkup One, Step One (April 15)
 *project/urls.py* Both a link to an admin site and a forward to plants/urls.py <br />
 *app/urls.py* Four entries (including index) to three templates, one filler view (no sample user template yet) <br />
