@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils import timezone
 
 # Index view - no need to separate GET and POST because there's no practical difference,
@@ -324,3 +324,86 @@ class post(View):
 		}
 		
 		return HttpResponse(loader.get_template('post.html').render(context, request))
+
+class register(View):
+	def get(self, request):
+		template = loader.get_template('register.html')
+		form = AuthenticationForm()
+		newAcctForm = UserCreationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+		# Add placeholders to the new account form fields
+		newAcctForm.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		newAcctForm.fields['password1'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+		newAcctForm.fields['password2'].widget.attrs.update({
+			'placeholder': 'confirm password'
+ 		})
+
+		context = {
+			'newAcctForm': newAcctForm,
+			'form': form
+		}
+
+		return HttpResponse(template.render(context, request))
+
+	def post(self, request):
+		# Creating a new user
+		# User is logging in
+		newAcctForm = UserCreationForm(data=request.POST)
+		# Validate and clean the data
+		if newAcctForm.is_valid():
+			newAcctForm.save() # create the new user (?)
+
+			username = newAcctForm.cleaned_data['username']
+			password = newAcctForm.cleaned_data['password1']
+			
+			# Log the user in so they don't see the failed form again
+			user = authenticate(username = username, password=password)
+			if user is not None:
+				login(request, user=user)
+			
+			# Create the user's profile
+			newProfile = Profile(
+				user = user,
+				bio = "",
+				status = ""
+			)
+			newProfile.save()
+			
+		template = loader.get_template('register.html') 
+
+		newAcctForm = UserCreationForm()
+		form = AuthenticationForm()
+		# Adds placeholders to the fields
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+		# Add placeholders to the new account form fields
+		newAcctForm.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		newAcctForm.fields['password1'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+		newAcctForm.fields['password2'].widget.attrs.update({
+			'placeholder': 'confirm password'
+ 		})
+		
+		context = {
+			'newAcctForm': newAcctForm,
+			'form': form
+		}
+
+		return HttpResponse(template.render(context, request))

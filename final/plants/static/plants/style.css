@@ -145,3 +145,14 @@ p {
 	background: #DB9EFF;
 	border: 1px solid #DB9EFF;
 }
+
+.newuserinput input {
+	border: none;
+	width: 100%;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	border-radius: 5px;
+	padding: 10px;
+	font-family: 'Karla', sans-serif;
+	margin-right: 10px;
+}
