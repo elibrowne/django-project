@@ -188,6 +188,52 @@ class user(View):
 		}
 		# Return the template, context, and request, regardless of what they may be
 		return HttpResponse(template.render(context, request))
+	
+	def post(self, request, username):
+		# Same as the get template except it will edit the user's data
+		
+		template = loader.get_template('user.html')
+		# Create authentication form
+		form = AuthenticationForm()
+		# Adds placeholders to the fields, per usual
+		form.fields['username'].widget.attrs.update({
+			'placeholder': 'username',
+		})
+		form.fields['password'].widget.attrs.update({
+			'placeholder': 'password'
+ 		})
+
+		# Check if the user exists: keeping this although it probably won't be an issue
+		# Still need to get the user object anyways
+		try:
+			userInfo = User.objects.filter(username=username)[0]
+		except:
+			# Load the user not found template
+			template = loader.get_template('nouser.html')
+			context = {
+				'username': username, # not user object because it didn't exist :(
+				'form': form
+			}
+			return HttpResponse(template.render(context, request))
+		
+		# At this point, we know that the user existed 
+		# Get the profile that corresponds to their profile
+		profile = Profile.objects.get(user=User.objects.get(username=username))
+		# Update their profile with the specified changes
+		profile.bio = request.POST.get('bio', "") # empty field results in empty
+		profile.status = request.POST.get('status', "")
+		profile.save()
+
+		# load the website
+		template = loader.get_template('user.html')
+		context = {
+			'posts': Post.objects.filter(author=userInfo.id).order_by('id'),
+			'username': userInfo.username,
+			'profile': profile,
+			'form': form
+		}
+		# Return the template, context, and request, regardless of what they may be
+		return HttpResponse(template.render(context, request))
 
 # Post view
 class post(View):
