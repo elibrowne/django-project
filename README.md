@@ -1,5 +1,8 @@
 # django-project
-This is my final Django project for the school year.
+This is my final Django project for the school year. I think that the most recent commit will be the ideal one to have graded. 
+
+### How to use
+This website is divided into "plants" (represented by the 'plant' model), and users can click on those plants from the homepage in order to see the posts specifically related to each plant. On the plant page, users can also create new posts under that category. To interact with a post, the user can click on the post content, which will take them to the 'post' page. The 'post' page displays the post content, the parent post (if it existed), and the replies to the post. If they're logged in, it will then give them the option to "like", "celebrate", "question", or "acknowledge" a post (using the 'response' model). They will also have the ability to respond to the post, creating another 'post' model with the parent_post attribute set to the post they're replying to, or to click on already posted replies. On the home page, it's also possible for the user to go to a 'user' model's page by either entering a username or clicking on a post's author. On this page, users can see any users bio and status (found in the 'profile' model), along with the posts that this user has authored. If the user is viewing their own profile, they'll see the option to edit the bio and status. On the home page, there is lastly an option to register a new user, which is only available when the user is logged out. There is a navigation bar on the top of the screen on every page, which allows for people to log in, log out, and go home. The styling across pages should be consistent.
 
 ### Models
 This project uses four models: the plant model, the post model, the profile model, and the response model. It also includes the built in user model.
