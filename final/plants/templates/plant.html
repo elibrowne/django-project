@@ -78,6 +78,16 @@
 				</li>
 				{% endif %}
 			{% endfor %}
+			<!-- If there were no posts, I don't want it to look like there was an issue pulling up posts. -->
+			<!-- Here, the goal is to acknowledge a lack of posts. -->
+			{% if posts|length == 0 %}
+				{% if user.is_authenticated %}
+					<p> there aren't any posts here! be the first to talk by writing one. </p>
+				{% else %} 
+					<!-- Don't tell logged out users to post. -->
+					<p> there aren't any posts here! log in above to create a post yourself. </p>
+				{% endif %}
+			{% endif %}
 		</div>
 	</body>
 </html>	

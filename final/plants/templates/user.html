@@ -48,11 +48,14 @@
 			<div class="postfocus" style="padding-bottom: 20px;"> <!-- I know it's named after focused post but the bio acts like a focused post here -->
 				<!-- The option to edit the page depends on if they are logged in and on their page -->
 				{% if user.is_authenticated and user.username == username %}
+					<!-- When the user is logged in, create the ability to edit via a form. -->
 					<h1> &#128075; welcome to your profile, {{ username }}! </h1>
 					<hr />
 					<form method="POST" action="/user/{{ username }}/">
 						{% csrf_token %}
 						<p> <strong> {{ username }}'s bio </strong> what do you want people to know about you? </p>
+						<!-- Include the existing bio and status as a placeholder for the other content. -->
+						<!-- Textareas require you to put it between the tags; input is just as "value" -->
 						<textarea name="bio" style="width: 100%; height: 115px; border-radius: 15px; border: none; padding: 15px;" >{{ profile.bio }}</textarea> <!-- no spaces because it would mess up the bio! -->
 						<hr />
 						<p> <strong> {{ username }} is currently... </strong> what are you up to? </p>
@@ -70,7 +73,7 @@
 			<hr />
 			<!-- This includes both posts and replies. It's basically an activity feed -->
 			<h2> conversations {{ username }} chatted in </h2>
-			{% for post in posts %}
+			{% for post in posts %} <!-- posts is already filtered to only include ones this user authored -->
 				<!-- To differentiate between original posts and replies, use "says..." and "responded..." -->
 				{% if post.post_parent == None %}
 					<li class="postli">

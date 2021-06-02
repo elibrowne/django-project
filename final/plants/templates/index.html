@@ -55,10 +55,11 @@
 						<br />
 						<p> visit a user's profile </p>
 						<form method="GET"> <!-- get with target -->
+							<!-- input group class just looks kind of cool, that's all -->
 							<div class="input-group">
 								<!-- Insert a username -->
 								<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">/user/</span>
+								<span class="input-group-text" id="basic-addon1">/user/</span> <!-- make target page clearer -->
 								</div>
 								<input type="text" class="form-control" placeholder="username" name="targetusername" aria-label="Username">
 								<!-- Submit button for this form -->
@@ -76,9 +77,10 @@
 						<br />
 						<p> go straight to any plant page </p>
 						<form method="GET">
+							<!-- same input group style as the user form for consistency -->
 							<div class="input-group">
 								<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">/plant/</span>
+								<span class="input-group-text" id="basic-addon1">/plant/</span> <!-- label the URL -->
 								</div>
 								<input type="text" class="form-control" placeholder="plant" name="targetplant" aria-label="Plant Name">
 								<!-- Submit button for this form -->
@@ -99,6 +101,7 @@
 			<!-- This list of plants is universal for the page regardless of if the user is logged in or not. -->
 			<!-- It includes every plant in alphabetical order, which should be pretty easy to follow -->
 			<p>
+				<!-- Loop over each plant, access their emoji and name, create links to plant pages: -->
 				{% for plant in plant_objects %}
 					<div class="plantlink"> <a href="/plant/{{ plant.plant_name|lower }}/">{{ plant.plant_emoji }} {{ plant.plant_name }}</a></div>
 				{% endfor %}
@@ -109,8 +112,10 @@
 				<h1> &#128027; do more </h1> 
 				<p> if you're looking for something extra, it's probably here! </p>
 				<h2> • </h2>
+				<!-- Anyone can access the newAccount page; only logged out users will be able to actually make one -->
 				<a href="/newAccount" style="color: #52b788;"> register a new user </a>
-				<!-- this ended up being the only "additional" feature added, it could probably be put in a different place too -->
+				<!-- This ended up being the only "additional" feature added, it could probably be put in a different place too -->
+				<!-- Were this to be a larger website, I imagine there could also be things like help or an FAQ down here -->
 				<br />
 			</div>
 			

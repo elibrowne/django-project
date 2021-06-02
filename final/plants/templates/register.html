@@ -49,6 +49,8 @@
 		<div class="container-fluid">
 			{% if not user.is_authenticated %}
 			<!-- Display error messages if there are error messages caused by an improper registration -->
+			<!-- For example: passwords don't match, username already exists, etc. -->
+			<!-- When warnings is a blank string, there were no issues, so nothing needs to be displayed -->
 			{% if not warnings == "" %} 
 			<div class="alert alert-danger" style="font-family: 'Karla', sans-serif;">
 				<strong> something went wrong :( </strong> {{ warnings }}
@@ -68,6 +70,8 @@
 					{{ newAcctForm.password2.errors }}
 					<span class="newuserinput"> {{ newAcctForm.password2 }} </span>
 					<button class="btn btn-outline-dark" style="margin-top: 20px; width: 100%; font-family: 'Karla', sans-serif;" type="submit"> join the club! </button>
+					<!-- If this form is valid upon submission, the user is automatically logged in to avoid the -->
+					<!-- creation of additional accounts and to make getting onto the website easier. -->
 				</form>
 			</div>
 			{% else %} 

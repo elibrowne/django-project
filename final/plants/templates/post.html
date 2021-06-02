@@ -122,6 +122,8 @@
 					{% csrf_token %}
 					<h1> &#128243; reply to {{ post.author }} </h1>
 					<p> keep the conversation going! reply here. 1000 character limit. </p>
+					<!-- Custom styling for the textarea just makes it larger so a longer post could be posted. -->
+					<!-- In my experience, submitting a longer message than 1000 characters will bring the user back and not save any data, given that it's invalid. -->
 					<textarea name="reply" style="width: 100%; height: 115px; border-radius: 15px; border: none; padding: 15px;" placeholder="what do you have to say?"></textarea>
 					<button class="btn btn-outline-dark" style="margin-top: 20px; width: 100%;" type="submit"> post! </button>
 				</form>
