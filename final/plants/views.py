@@ -20,6 +20,8 @@ from django.utils import timezone
 class index(View):
 	# Get request means that either the user is logged in and wants to stay logged in
 	# or that the user is a guest and has not tried to log in. 
+	# This view also uses a get request for the two front page forms (quick access) because
+	# there is no need to secure that data.
 	def get(self, request):
 		# Variables
 		plant_objects = Plant.objects.order_by('plant_name') # to be passed to the homepage
@@ -39,7 +41,7 @@ class index(View):
 			if request.GET['targetusername']:
 				return user.as_view()(self.request, request.GET['targetusername'])
 		except: 
-			print("No target username.")
+			print("No target username.") # using these print statements for console + to have code in the except block
 		
 		try: 
 			if request.GET['targetplant']:
@@ -94,6 +96,7 @@ class index(View):
 
 # Plant view (basic)
 class plant(View):
+	# Get just displays the posts and the plant ame
 	def get(self, request, plantname):
 		post_objects = Post.objects.order_by('id')
 		template = loader.get_template('plant.html')
@@ -115,6 +118,8 @@ class plant(View):
 		}
 		return HttpResponse(template.render(context, request))
 
+	# Post means that the user posted in this plant category, so a new post
+	# needs to be added. 
 	def post(self, request, plantname):
 		# Post request = the user is making a new post in the plant category
 		post_objects = Post.objects.order_by('id')
@@ -139,10 +144,12 @@ class plant(View):
 				pub_date = timezone.now(),
 				helpful = 0, # both of the "like" values start at zero
 				also_questioning = 0,
+				likes = 0,
+				celebrating = 0
 			)
 			newPost.save()
 		
-		# Load the page, the new post should appear
+		# Load the page, the new post should appear on the new page as it's been added
 		context = {
 			'plantname': plantname,
 			'posts': post_objects.filter(post_plant = Plant.objects.order_by('plant_name').get(plant_name = plantname)),
@@ -152,6 +159,9 @@ class plant(View):
 
 # User view
 class user(View):
+	# Get simply displays the user's profile. If the user is logged in and is viewing
+	# their own profile, there will be an option to edit that profile, but that is dealt
+	# with in the template using if user.is_authenticated.
 	def get(self, request, username):
 		template = loader.get_template('user.html')
 		# Create authentication form
@@ -189,9 +199,9 @@ class user(View):
 		# Return the template, context, and request, regardless of what they may be
 		return HttpResponse(template.render(context, request))
 	
-	def post(self, request, username):
-		# Same as the get template except it will edit the user's data
-		
+	# The post method is only used when the user edited their own profile data.
+	# It is very similar to the get template, the sole difference being saving data.
+	def post(self, request, username):	
 		template = loader.get_template('user.html')
 		# Create authentication form
 		form = AuthenticationForm()
@@ -237,6 +247,7 @@ class user(View):
 
 # Post view
 class post(View):
+	# The get method just displays the post and the options to interact with it.
 	def get(self, request, post_id):
 		post_objects = Post.objects.order_by('id')
 		template = loader.get_template('post.html')
@@ -261,6 +272,9 @@ class post(View):
 		print(request.GET) # testing out the "reply" button that doesn't reply anything
 		return HttpResponse(template.render(context, request))
 
+	# The post method here has to deal with a variety of things. If the user 
+	# replies to a post, it must add the response and save it. If the user reacts,
+	# it must accurately update both the Post and Response models. 
 	def post(self, request, post_id):
 		# Variable to check if an error message is needed (non logged in user tried to interact)
 		needsWarning = False
@@ -371,11 +385,17 @@ class post(View):
 		
 		return HttpResponse(loader.get_template('post.html').render(context, request))
 
+# Register a new user view
+# The register class only displays the options to create a new user when the user
+# is not logged in, regardless of whether get or post is used. This is done with
+# an if block and user.is_authenticated.
 class register(View):
+	# Get method displays the options to make a new user
 	def get(self, request):
 		template = loader.get_template('register.html')
 		form = AuthenticationForm()
-		newAcctForm = UserCreationForm()
+		newAcctForm = UserCreationForm() # also a django default
+		
 		# Adds placeholders to the fields
 		form.fields['username'].widget.attrs.update({
 			'placeholder': 'username',
@@ -402,6 +422,7 @@ class register(View):
 
 		return HttpResponse(template.render(context, request))
 
+	# This method runs after the user attempts to create their account.
 	def post(self, request):
 		# When there is a post request on the registration page, the website user attempted to make an account
 		warnings = "" # will add warnings if there are issues with their registration!

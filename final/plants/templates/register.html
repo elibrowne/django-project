@@ -54,6 +54,7 @@
 				<strong> something went wrong :( </strong> {{ warnings }}
 			</div>
 			{% endif %}
+			<!-- Form to register a new account (can be a bit long) -->
 			<h2> &#128154; welcome! </h2>
 			<p> register your new account here. if you already have an account, log in above. </p> 
 			<div style="background-color: #eee; padding: 20px; border-radius: 10px;">
@@ -70,6 +71,8 @@
 				</form>
 			</div>
 			{% else %} 
+			<!-- the user is logged in (either they just made an account or were already logged in) -->
+			<!-- no ability to fill out the form -->
 			<h2> &#9989; congrats! you're logged in. </h2>
 			<p> no need to create a new account. go <a href="/" style="color: #52b788;"> home</a> and check out the site! </p>
 			{% endif %}
