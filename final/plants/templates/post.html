@@ -54,6 +54,14 @@
 			</div>
 			{% endif %}
 
+			<!-- Display the parent post in a little box if it exists, otherwise display nothing -->
+			{% if not post.post_parent == None %}
+				<li class="postli">
+					<h4> <a href="/user/{{ post.post_parent.author }}"> {{ post.post_parent.author }}</a> said... </h4>
+					<a href="/post/{{ post.post_parent.id }}/">{{ post.post_parent.post_content }}</a>
+				</li>
+			{% endif %}
+
 			<!-- This div contains the main post -->
 			<div class="postfocus" style="padding-bottom: 20px;"> <!-- postfocus with buttons needs 20px bottom padding -->
 				<h1> &#128172; <a href="/user/{{ post.author }}"> {{ post.author }}</a> says... </h1>
